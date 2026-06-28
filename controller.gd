@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+@export var speed := 5.0
+const GRAVITY = -9.8
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -10,13 +12,13 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-@export var speed := 5.0
-
 func _physics_process(delta: float) -> void:
+	if not is_on_floor():
+		velocity.y += GRAVITY * delta
+	
 	var direction = Vector3.ZERO
 
 	if Input.is_action_pressed("move_forward"):
-		print("I'm moving!")
 		direction.z -= 1
 	if Input.is_action_pressed("move_backward"):
 		direction.z += 1

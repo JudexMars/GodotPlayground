@@ -2,6 +2,13 @@
 
 [ext_resource type="Script" uid="uid://cwqh36eypip7w" path="res://controller.gd" id="1_ulcgi"]
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7rq2w"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ulcgi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cjyic"]
+size = Vector3(7.82, 0.03, 6.77)
+
 [sub_resource type="Gradient" id="Gradient_drvgu"]
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_bitva"]
@@ -14,35 +21,38 @@ roughness_texture = SubResource("GradientTexture1D_bitva")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_0w0vd"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_7rq2w"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ulcgi"]
-
 [node name="Scene" type="Node3D" unique_id=773974711]
 
-[node name="floor" type="MeshInstance3D" parent="." unique_id=1190586386]
-transform = Transform3D(3.9134948, 0, 0, 0, 1, 0, 0, 0, 3.3897173, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_ospys")
-mesh = SubResource("PlaneMesh_0w0vd")
-
-[node name="Player" type="MeshInstance3D" parent="." unique_id=1906901570]
+[node name="Controller" type="CharacterBody3D" parent="." unique_id=364073176]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.054810017, 1.0832455, -0.0151577)
+script = ExtResource("1_ulcgi")
+
+[node name="Player" type="MeshInstance3D" parent="Controller" unique_id=1906901570]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.71924496, 0)
 mesh = SubResource("CapsuleMesh_7rq2w")
 
-[node name="Controller" type="CharacterBody3D" parent="Player" unique_id=364073176]
-script = ExtResource("1_ulcgi")
-speed = 50.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/Controller" unique_id=1755459356]
-shape = SubResource("CapsuleShape3D_ulcgi")
-
-[node name="SpringArm3D" type="SpringArm3D" parent="Player" unique_id=1968454929]
+[node name="SpringArm3D" type="SpringArm3D" parent="Controller/Player" unique_id=1968454929]
 transform = Transform3D(1, 0, 0, 0, 0.90814126, 0.41866395, 0, -0.41866395, 0.90814126, 0, 1.7325804, 2.6804564)
 
-[node name="Camera3D" type="Camera3D" parent="Player/SpringArm3D" unique_id=694345587]
+[node name="Camera3D" type="Camera3D" parent="Controller/Player/SpringArm3D" unique_id=694345587]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Controller" unique_id=1755459356]
+shape = SubResource("CapsuleShape3D_ulcgi")
 
 [node name="AreaLight3D" type="AreaLight3D" parent="." unique_id=687260686]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1.2079835, 0, -1, -5.2802637e-08, 1.8286138, 7.622013, 0.11747742)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 1.8286138, 7.622013, 0.11747742)
 light_energy = 16.0
 light_size = 0.528
 area_range = 691.238
+
+[node name="Level" type="Node3D" parent="." unique_id=227709662]
+
+[node name="Floor" type="StaticBody3D" parent="Level" unique_id=996563860]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Floor" unique_id=1614931142]
+shape = SubResource("BoxShape3D_cjyic")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Floor" unique_id=1190586386]
+transform = Transform3D(3.9134948, 0, 0, 0, 1, 0, 0, 0, 3.3897173, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_ospys")
+mesh = SubResource("PlaneMesh_0w0vd")
