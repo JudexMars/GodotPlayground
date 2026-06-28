@@ -24,6 +24,10 @@ window/stretch/aspect="expand"
 
 project/assembly_name="New Game Project"
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 move_forward={
